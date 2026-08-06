@@ -1,0 +1,53 @@
+# EditorConfig
+
+# This file is for unifying the coding styles for multiple developers
+# working on the same project across various editors and IDEs.
+# More info: https://editorconfig.org
+
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# HTML files
+[*.html]
+indent_style = space
+indent_size = 2
+
+# CSS files
+[*.css]
+indent_style = space
+indent_size = 2
+
+# JavaScript files
+[*.js]
+indent_style = space
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+
+# YAML files (including .yml)
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# Git attributes
+[.gitattributes]
+indent_style = space
+indent_size = 2
+
+# Git ignore
+[.gitignore]
+indent_style = space
+indent_size = 2
