@@ -1,0 +1,2 @@
+# Exclude inline versions from GitHub language statistics
+inline/** linguist-vendored=true
