@@ -1,5 +1,12 @@
-// © 2025 VIRATI AKIRANANDHAN REDDY
-// https://github.com/ViratiAkiraNandhanReddy/404-particle-pro
+/* 
+© 2026 Not Found Pages · 404-particle-reassembly-classic
+Released under the MIT License
+
+Repository → https://github.com/notfoundpages/404-particle-reassembly-classic
+Live Preview → https://notfoundpages.github.io/404-particle-reassembly-classic
+
+Discover the full collection → https://notfoundpages.github.io
+*/
 
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
