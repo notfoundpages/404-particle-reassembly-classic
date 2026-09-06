@@ -7,3 +7,299 @@ Live Preview → https://notfoundpages.github.io/404-particle-reassembly-classic
 
 Discover the full collection → https://notfoundpages.github.io
 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404-particle-reassembly-classic</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Interactive particle-based 404 page where errors disintegrate and reassemble.">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --gold: 255, 215, 0
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* full-bleed canvas sized via JS (keeps CSS size stable) */
+    canvas {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* UI sits on top and centers reliably */
+    .ui-layer {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: clamp(28px, 6vh, 64px);
+      max-width: 100%;
+      padding: 0 12px;
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      /* let canvas handle pointer unless child opts-in */
+    }
+
+    .message {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 1.05rem;
+      margin: 0 0 14px 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    /* Use a real button for accessibility; allow pointer events */
+    .btn {
+      pointer-events: auto;
+      display: inline-block;
+      padding: 12px 28px;
+      border: 1px solid rgba(var(--gold), 0.55);
+      color: rgb(var(--gold));
+      background: transparent;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      letter-spacing: 1.6px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn:focus {
+      outline: 2px solid rgba(var(--gold), 0.25);
+      outline-offset: 4px
+    }
+
+    .btn:hover {
+      background: rgb(var(--gold));
+      color: #000;
+      box-shadow: 0 6px 30px rgba(var(--gold), 0.18);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width:420px) {
+      .message {
+        font-size: 0.95rem
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px 20px
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <canvas id="canvas1" aria-hidden="true"></canvas>
+
+  <div class="ui-layer" role="region" aria-label="Page actions">
+    <div class="message">The system has disintegrated</div>
+    <button id="reassembleBtn" class="btn" aria-label="Reassemble and return Home">Reassemble</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas1');
+    const ctx = canvas.getContext('2d');
+
+    let particleArray = [];
+    let adjustX = 0;
+    let adjustY = 0;
+
+    // Mouse / touch
+    const mouse = { x: undefined, y: undefined, radius: 120 };
+
+    function updateMouseFromEvent(e) {
+      // prefer clientX for consistent coords
+      const cx = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+      const cy = (e.touches && e.touches[0]) ? e.touches[0].clientY : e.clientY;
+      mouse.x = cx;
+      mouse.y = cy;
+    }
+
+    window.addEventListener('mousemove', updateMouseFromEvent, { passive: true });
+    window.addEventListener('touchmove', updateMouseFromEvent, { passive: true });
+    window.addEventListener('mouseleave', () => { mouse.x = undefined; mouse.y = undefined; });
+    window.addEventListener('touchend', () => { mouse.x = undefined; mouse.y = undefined; });
+
+    // --- THE PARTICLE CLASS ---
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = 2; // CSS pixels
+        this.baseX = x;
+        this.baseY = y;
+        this.density = (Math.random() * 25) + 5;
+        // maximum distance this particle may stray from its base (keeps shape precise)
+        this.maxOffset = 6 + Math.random() * 6; // px
+        this.color = 'rgba(255,215,0,0.85)';
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      update() {
+        if (typeof mouse.x === 'number' && typeof mouse.y === 'number') {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance === 0) distance = 0.001;
+          if (distance < mouse.radius) {
+            const force = (mouse.radius - distance) / mouse.radius;
+            const directionX = (dx / distance) * force * this.density;
+            const directionY = (dy / distance) * force * this.density;
+            // push away but limit displacement so particle remains within glyph
+            this.x -= directionX * 3;
+            this.y -= directionY * 3;
+            // clamp to maxOffset from base to keep the number precise
+            const fromBaseX = this.x - this.baseX;
+            const fromBaseY = this.y - this.baseY;
+            const distFromBase = Math.sqrt(fromBaseX * fromBaseX + fromBaseY * fromBaseY) || 0.0001;
+            if (distFromBase > this.maxOffset) {
+              const k = this.maxOffset / distFromBase;
+              this.x = this.baseX + fromBaseX * k;
+              this.y = this.baseY + fromBaseY * k;
+            }
+            this.color = '#ffffff';
+            return;
+          }
+        }
+
+        // ease back to base (with a small snap if very close)
+        this.x += (this.baseX - this.x) * 0.08;
+        this.y += (this.baseY - this.y) * 0.08;
+        // ensure we don't slowly drift outside the allowed radius
+        const bx = this.x - this.baseX;
+        const by = this.y - this.baseY;
+        const dbb = Math.sqrt(bx * bx + by * by) || 0.0001;
+        if (dbb > this.maxOffset) {
+          const k2 = this.maxOffset / dbb;
+          this.x = this.baseX + bx * k2;
+          this.y = this.baseY + by * k2;
+        }
+        this.color = 'rgba(255,215,0,0.85)';
+      }
+    }
+
+    // --- SCANNING TEXT TO CREATE PARTICLES ---
+    function init() {
+      particleArray = [];
+
+      // DPR aware setup: scale canvas internal pixels, but use CSS pixels for coordinates
+      const DPR = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = Math.floor(window.innerWidth * DPR);
+      canvas.height = Math.floor(window.innerHeight * DPR);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+      // Font scaled by viewport (CSS px). Use heavy weight for dense points
+      const fontSize = Math.min(window.innerWidth / 4, 300);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'white';
+      ctx.font = '900 ' + Math.floor(fontSize) + 'px Arial';
+      ctx.textBaseline = 'middle';
+
+      // measure text using CSS-space coordinates
+      const metrics = ctx.measureText('404');
+      const textWidth = metrics.width;
+
+      adjustX = (window.innerWidth / 2) - (textWidth / 2);
+      adjustY = (window.innerHeight / 2);
+
+      // draw text (this will be rendered to device pixels by the transform)
+      ctx.fillText('404', adjustX, adjustY);
+
+      // read pixel data from full canvas (device pixels) but step based on DPR
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const densityCSS = 7;
+      const step = Math.max(1, Math.floor(densityCSS * DPR));
+
+      for (let y = 0; y < imgData.height; y += step) {
+        for (let x = 0; x < imgData.width; x += step) {
+          const alpha = imgData.data[(y * imgData.width + x) * 4 + 3];
+          if (alpha > 128) {
+            // convert device pixel coords back to CSS pixels for particle positions
+            const posX = x / DPR;
+            const posY = y / DPR;
+            particleArray.push(new Particle(posX, posY));
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // draw particles
+      for (let i = 0; i < particleArray.length; i++) {
+        particleArray[i].draw();
+        particleArray[i].update();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // initial run
+    init();
+    animate();
+
+    // Resize handling (debounced)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        init();
+      }, 120);
+    });
+
+    // Reassemble button behavior
+    const reassembleBtn = document.getElementById('reassembleBtn');
+    if (reassembleBtn) {
+      reassembleBtn.addEventListener('click', () => {
+        // navigate back if possible, otherwise home
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = '/';
+      });
+      reassembleBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') reassembleBtn.click();
+      });
+    }
+
+    // keyboard: Escape to reassemble
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && reassembleBtn) reassembleBtn.click();
+    });
+  </script>
+</body>
+
+</html>
