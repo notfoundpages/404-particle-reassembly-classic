@@ -1,207 +1,85 @@
-<div align="center">
-  <img src="https://img.shields.io/github/deployments/ViratiAkiraNandhanReddy/404-particle-pro/github-pages?label=GitHub%20Pages&logo=github" alt="GitHub Pages" />
-  <img src="https://img.shields.io/github/repo-size/ViratiAkiraNandhanReddy/404-particle-pro" alt="Repo Size" />
-  <img src="https://api.visitorbadge.io/api/visitors?path=ViratiAkiraNandhanReddy/404-particle-pro&label=Repository%20Visits&style=flat" alt="Visits" />
-  <img src="https://img.shields.io/github/issues/ViratiAkiraNandhanReddy/404-particle-pro" alt="Issues" />
-  <img src="https://img.shields.io/github/stars/ViratiAkiraNandhanReddy/404-particle-pro?style=social" alt="Stars" />
+<p align="center">
+  <img src="assets/previews/desktop.png" alt="404 Particle Reassembly Classic" width="100%">
+</p>
 
-  <h1><a href="https://viratiakiranandhanreddy.github.io/404-particle-pro">404-particle-pro</a></h1>
-  <p><em>Interactive particle-based 404 page where errors disintegrate and reassemble.</em></p>
-</div>
+<h1 align="center"><a href="https://notfoundpages.github.io/404-particle-reassembly-classic">404-particle-reassembly-classic</a></h1>
 
----
+<p align="center">
+  An interactive particle-based 404 error page where the error message
+  disintegrates and reassembles into a glowing particle formation.
+</p>
 
-## **📎 Why 404-particle-pro?**
+<h3 align="center">
+  <a href="https://notfoundpages.github.io/404-particle-reassembly-classic">Live Demo</a>
+  ·
+  <a href="https://github.com/notfoundpages/404-particle-reassembly-classic">Source Code</a>
+  ·
+  <a href="https://github.com/notfoundpages/404-particle-reassembly-classic/issues">Issues</a>
+</h3>
 
-**404-particle-pro** is a **canvas-powered, generative-art 404 error page** that transforms the classic “Page Not Found” into an immersive experience.
+## Overview
 
-Instead of static text, the `404` is built from **hundreds of particles** that:
+A 404 page doesn't have to feel like an error.
 
-* 🐝 React to mouse & touch movement
-* 🧲 Disintegrate on interaction
-* 🔁 Smoothly reassemble into the original shape
-* ⚡ Run entirely on **Vanilla JavaScript**
+**404 Particle Reassembly Classic** turns a missing page into an interactive particle experience. The 404 message breaks apart into glowing particles, reacts to the user's cursor or touch, and can smoothly reassemble on demand.
 
-Designed for **developers who care about details**, motion, and polish.
+Built entirely with **HTML, CSS, and vanilla JavaScript**, the page uses the native Canvas API to render and animate the particle system with no frameworks, no dependencies, and no build step.
 
----
+Just copy it into your project, customize it, and give your visitors a memorable error page.
 
-## **📸 Preview**
+## Preview
 
-### **Desktop View**
+| Desktop | Mobile |
+| ------- | ------ |
+| <img src="assets/previews/desktop.png" alt="Desktop Preview" height="435"> | <img src="assets/previews/mobile.png" alt="Mobile Preview" width="191"> |
 
-![Desktop](desktop.png)
+<table width="100%">
+  <tr>
+    <td width="50%" align="left" valign="middle">
+      <img src="assets/previews/reassembly-text.gif" alt="Particle Reassembly Animation Preview" width="100%">
+    </td>
+    <td width="50%" align="left" valign="middle">
+      The background is powered by a Canvas-based particle system that
+      transforms the 404 message into a dynamic field of glowing particles.
+      Particles respond to pointer movement and touch interaction before
+      smoothly returning to their original positions when reassembled.
+    </td>
+  </tr>
+</table>
 
-### **Mobile View**
+## Quick Start
 
-![Mobile](mobile%20-%20(iPhone%2014%20Pro%20Max).png)
----
+### GitHub Pages
 
-## **✨ Features**
+Using it with **GitHub Pages** is simple:
 
-### **1. Particle Typography Engine**
+1. Rename `index.html` to `404.html`.
+2. Keep `404.html` in the **root** of your repository.
+3. If using the external version, keep `style.css` and `script.js` alongside it.
+4. Commit and push your changes.
 
-* Text rendered via `<canvas>`
-* Pixel-scanned glyph generation
-* Each pixel becomes an independent particle
-* Base-position locking preserves glyph accuracy
+GitHub Pages automatically serves a root-level `404.html` when a visitor reaches a page that doesn't exist.
 
-### **2. Interactive Physics**
+### Other Hosting
 
-* Mouse & touch repulsion
-* Density-based force calculation
-* Maximum offset clamping (prevents shape distortion)
-* Smooth easing back to origin
+For other hosting platforms, rename `index.html` to `404.html` and upload it to your website's public or root directory.
 
-### **3. High-DPI & Responsive Rendering**
+If you're using the external version, upload `style.css` and `script.js` alongside it.
 
-* Device Pixel Ratio (DPR) aware
-* Retina-sharp visuals
-* Scales dynamically with viewport size
-* Debounced resize recalculation
+Most hosting platforms automatically serve `404.html` for missing pages. If yours requires additional configuration, check your hosting provider's documentation for setting a custom 404 page.
 
-### **4. Minimal UI Layer**
+### Inline Version
 
-* Floating system-style message
-* Accessible reassemble button
-* Keyboard support:
+Prefer a single file?
 
-  * `Enter` / `Space` → Reassemble
-  * `Escape` → Exit error state
+Use either `inline/index.html` or the minified `inline/index.min.html`.
 
-### **5. Zero Dependencies**
+Simply copy the contents into a new `404.html` in your repository or hosting root and you're ready to go — no external CSS, JavaScript, or additional files required.
 
-* No libraries
-* No frameworks
-* No assets
-* Single HTML file
+<p align="center">
+  <strong>Made with ❤️ by <a href="https://notfoundpages.github.io">Not Found Pages</a></strong>
+</p>
 
----
-
-## **🚀 Live Demo**
-
-<kbd>**[/404-particle-pro/](https://viratiakiranandhanreddy.github.io/404-particle-pro)**</kbd>
-
----
-
-## **🛠️ Installation & Setup**
-
-### **1. Clone the Repository**
-
-```bash
-git clone https://github.com/ViratiAkiraNandhanReddy/404-particle-pro.git
-```
-
-### **2. Use as GitHub Pages 404**
-
-Rename the file:
-
-```text
-index.html → 404.html
-```
-
-Push it to the **root of your GitHub Pages repository**.
-
-GitHub Pages automatically serves `404.html` for all invalid routes.
-
----
-
-## **🧩 Customization**
-
-### **🔹 Change Displayed Text**
-
-```js
-ctx.fillText('404', adjustX, adjustY);
-```
-
-Replace with any short word (e.g. `"ERROR"`, `"LOST"`).
-
----
-
-### **🔹 Particle Density**
-
-```js
-const densityCSS = 7;
-```
-
-Lower = fewer particles, higher = denser glyph.
-
----
-
-### **🔹 Interaction Radius**
-
-```js
-const mouse = { radius: 120 };
-```
-
-Controls how far particles react to input.
-
----
-
-### **🔹 Colors & Theme**
-
-```css
-:root {
-  --bg: #0b0b0b;
-  --gold: 255, 215, 0;
-}
-```
-
----
-
-## **♿ Accessibility**
-
-* Canvas marked `aria-hidden="true"`
-* Semantic button element
-* ARIA labels for screen readers
-* Keyboard-only navigation support
-* Focus-visible outlines
-
----
-
-## **🧪 Browser Support**
-
-* Chrome
-* Edge
-* Firefox
-* Safari
-* Mobile browsers
-
-(Requires Canvas + ES6 support)
-
----
-
-## **🤝 Contributing**
-
-Contributions are welcome:
-
-1. Fork the repository
-2. Create a new branch
-3. Commit your changes
-4. Open a Pull Request
-
----
-
-## ⭐ Support
-
-<kbd>If you like this project, consider giving it a star ⭐ — it helps a lot.</kbd>
-
----
-
-## 📝 License
-
-<p align="center"><kbd>&copy; 2025 <a href="https://github.com/ViratiAkiraNandhanReddy">ViratiAkiraNandhanReddy</a>. This project is licensed under the <i>MIT License</i>.</kbd></p>
-
----
-
-## 👤 Author
-
-### Developed by [ViratiAkiraNandhanReddy](https://github.com/ViratiAkiraNandhanReddy)
-
-> 💤 - PASSIVE MAINTENANCE : Mean the project is no longer actively developed ***( NO New Features And Regular Updates )***, but the maintainer will respond only when an issue or PR is raised. Feel free to fork and continue development!
-
----
-
-<h3 align="center"> 🌟 Questions, suggestions, or want to contribute? Open an issue or pull request on GitHub! 🌟 </h3>
-
-<p align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0e8fff&height=100&section=footer" width="100%" /> </p>
+<p align="center">
+  <sub>Give your visitors something better than a dead end.</sub>
+</p>
