@@ -1,0 +1,72 @@
+name: New 404 Page Submission
+description: Submit a new 404 page for the notfoundpages ecosystem
+title: "[404 Page]: "
+labels:
+  - new-404-page
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing to the notfoundpages ecosystem! 🚀
+
+        Submit your 404 page idea/design below. 
+        The team will review it, and if it fits the ecosystem standards, we will contact you with the next steps.
+
+  - type: input
+    id: name
+    attributes:
+      label: 404 Page Name
+      description: What should this 404 page be called?
+      placeholder: "Example: 404 Matrix Rain"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe your 404 page and its concept.
+      placeholder: Explain the design, theme, and experience.
+    validations:
+      required: true
+
+  - type: input
+    id: demo
+    attributes:
+      label: Demo URL
+      description: Provide a live preview if available.
+      placeholder: "https://example.com"
+    validations:
+      required: false
+
+  - type: input
+    id: repository
+    attributes:
+      label: Source Repository
+      description: Link to your repository containing the 404 page.
+      placeholder: "https://github.com/username/repository"
+    validations:
+      required: true
+
+  - type: textarea
+    id: features
+    attributes:
+      label: Features
+      description: List the main features or technologies used.
+      placeholder: |
+        - Three.js animation
+        - Responsive design
+        - Interactive effects
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Requirements
+      options:
+        - label: I confirm this is my original work or I have permission to submit it.
+          required: true
+        - label: I understand that acceptance is based on review by the notfoundpages team.
+          required: true
